@@ -39,8 +39,8 @@ DECLARE
      v_key varchar;
      v_conkey smallint[];
      v_pk varchar[];
-   v_len smallint;
-   v_pos smallint := 1;
+	 v_len smallint;
+	 v_pos smallint := 1;
 BEGIN
      SELECT
            pg_class.oid  INTO v_oid
@@ -64,8 +64,8 @@ BEGIN
         pg_class.relname = a_table_name
      AND pg_constraint.contype = 'p';     
      
-   v_len := array_length(v_conkey,1) + 1;
-   WHILE v_pos < v_len LOOP
+	 v_len := array_length(v_conkey,1) + 1;
+	 WHILE v_pos < v_len LOOP
             SELECT 
                 pg_attribute.attname INTO v_key 
             FROM pg_constraint 
@@ -74,8 +74,8 @@ BEGIN
             INNER JOIN pg_type ON pg_type.oid = pg_attribute.atttypid 
             WHERE pg_class.relname = a_table_name AND pg_constraint.contype = 'p';        
             v_pk := array_append(v_pk,v_key);
-      
-      v_pos := v_pos + 1;
+			
+			v_pos := v_pos + 1;
      END LOOP;
 
      v_sql='
@@ -114,15 +114,15 @@ BEGIN
          v_ret.fields_comment=v_rec.fields_comment;
         
          v_ret.fields_key_name='';
-     
-     v_len := array_length(v_pk,1) + 1;
-     v_pos := 1;
-     WHILE v_pos < v_len LOOP
+		 
+	 	 v_len := array_length(v_pk,1) + 1;
+		 v_pos := 1;
+	 	 WHILE v_pos < v_len LOOP
              IF v_rec.fields_name = v_pk[v_pos] THEN
                 v_ret.fields_key_name=v_pk[v_pos];
                 EXIT;
              END IF;
-       v_pos := v_pos + 1;
+			 v_pos := v_pos + 1;
          END LOOP;        
 
          RETURN NEXT v_ret;
